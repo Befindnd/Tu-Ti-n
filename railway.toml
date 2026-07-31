@@ -1,0 +1,8 @@
+[build]
+    builder = "nixpacks"
+
+  [deploy]
+    startCommand = "node --no-deprecation artifacts/api-server/src/index.js"
+    restartPolicyType = "on_failure"
+    restartPolicyMaxRetries = 3
+  

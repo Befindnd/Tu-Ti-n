@@ -1,0 +1,15 @@
+[phases.setup]
+  nixPkgs = ["nodejs_22", "tesseract"]
+
+[phases.install]
+  cmds = [
+    "npx --yes pnpm@10.26.1 install --no-frozen-lockfile"
+  ]
+
+[phases.build]
+  cmds = [
+    "node artifacts/api-server/scripts/check-deps.js"
+  ]
+
+[start]
+  cmd = "node --no-deprecation artifacts/api-server/src/index.js"
