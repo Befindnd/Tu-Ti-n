@@ -5,6 +5,7 @@ const {
   StringSelectMenuBuilder, StringSelectMenuOptionBuilder, MessageFlags,
 } = require('discord.js');
 const { db } = require('../db/pool');
+const { getDanhVongBonus } = require('../utils/danh_vong');
 const { getPlayer, awardBiPhap, awardLinhThao } = require('../db/players');
 const { CE } = require('../systems/emoji');
 const {
@@ -115,7 +116,9 @@ reg("tu_luyen", ["tl", "tu", "tuluyen"], async (msg, args) => {
   const buffCheck = "object" == typeof h.buff_active && h.buff_active ? h.buff_active : {};
   const linhHoaActive = (buffCheck.linh_hoa_until || 0) > Date.now();
   const linhHoaMult = linhHoaActive ? 1.25 : 1.0;
-  const g   = Math.floor(calc.expGain * linhHoaMult);
+  const dvBonus     = getDanhVongBonus(h.danh_vong);
+  const dvExpMult   = 1 + dvBonus.exp; // e.g. 1.10 khi DV >= 1000, 0.95 khi Ác Danh
+  const g   = Math.floor(calc.expGain * linhHoaMult * dvExpMult);
   const $   = calc.newExp - calc.expGain + g;
   const k   = calc.newCamNgo;
   const C   = h.cam_ngo || 0;

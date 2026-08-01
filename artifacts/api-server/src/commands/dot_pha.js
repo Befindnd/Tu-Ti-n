@@ -5,7 +5,7 @@ const { getPlayer } = require('../db/players');
 const { CE } = require('../systems/emoji');
 const { CANH_GIOI, NGHE, THIEN_KIEP_NGUONG, CG_EMOJI } = require('../data');
 const { fmt, getCG, pBar, errE, warnE, okE, tinhCS, reg } = require('../utils');
-const { awardDanhVong, DV_POINTS } = require('../utils/danh_vong');
+const { awardDanhVong, DV_POINTS, getDanhVongBonus } = require('../utils/danh_vong');
 const { calcDotPhaSuccess } = require('../game/cultivation_engine');
 const { checkNgheDotPha } = require('./cultivation');
 
@@ -157,7 +157,9 @@ const { checkNgheDotPha } = require('./cultivation');
         vp[k] = Math.max(0, Number(vp[k] || 0) - amt);
       await db("UPDATE players SET vat_pham=$1 WHERE user_id=$2", [JSON.stringify(vp), t]);
     }
-    const r = o.fixed_rate !== undefined ? o.fixed_rate : calcDotPhaSuccess(e, o);
+    const dvBonus  = getDanhVongBonus(e.danh_vong);
+    const baseRate = o.fixed_rate !== undefined ? o.fixed_rate : calcDotPhaSuccess(e, o);
+    const r        = Math.max(0.01, Math.min(0.99, baseRate + dvBonus.dot_pha));
     if (Math.random() < r) {
       const h = e.canh_gioi + 1,
         i = CANH_GIOI[h],

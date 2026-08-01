@@ -18,7 +18,7 @@ const {
   errE,
   COMMANDS, reg,
 } = require('../utils');
-const { DV_POINTS } = require('../utils/danh_vong');
+const { DV_POINTS, DV_TIERS, getDanhVongBonus } = require('../utils/danh_vong');
 
 // Huy hiệu theo ngưỡng
 function getDVBadge(dv) {
@@ -90,15 +90,28 @@ reg('thien_dao_bang', ['tdb', 'bxh_dv', 'danhvong'], async (msg) => {
         inline: false,
       },
       {
-        name: `${CE('tip_icon','💡')} Cách Kiếm Danh Vọng`,
+        name: `${CE('tip_icon','💡')} Cách Kiếm / Mất Danh Vọng`,
         value: [
-          `⚔️ Thắng PVP **+${DV_POINTS.PVP_WIN}**`,
+          `⚔️ Thắng PVP **+${DV_POINTS.PVP_WIN}** · Thua PVP **−5**`,
           `📋 Nhận nhiệm vụ ngày **+${DV_POINTS.MISSION_CLAIM}**`,
           `🏯 Vượt tầng Tower mới **+${DV_POINTS.TOWER_FLOOR}**`,
-          `💥 Đột phá cảnh giới **+${DV_POINTS.DOT_PHA}**`,
+          `💥 Đột phá thành công **+${DV_POINTS.DOT_PHA}** · Thất bại **−3**`,
           `⚡ Vượt Thiên Kiếp **+${DV_POINTS.VUOT_KIEP}**`,
-          `🗡️ Cướp túi đồ thành công **+${DV_POINTS.CUOP_TUI}**`,
-        ].join(' · '),
+          `🗡️ Cướp túi thành công **+${DV_POINTS.CUOP_TUI}** · Bị cướp **−5** · Bị ám sát **−3**`,
+        ].join('\n'),
+        inline: false,
+      },
+      {
+        name: '📊 Hiệu Ứng Theo Ngưỡng',
+        value: DV_TIERS.map(t => {
+          const parts = [];
+          if (t.exp    !== 0) parts.push(`EXP ${t.exp > 0 ? '+' : ''}${Math.round(t.exp * 100)}%`);
+          if (t.dot_pha !== 0) parts.push(`Đột Phá ${t.dot_pha > 0 ? '+' : ''}${Math.round(t.dot_pha * 100)}%`);
+          if (t.pvp_loot !== 0) parts.push(`Loot PVP +${Math.round(t.pvp_loot * 100)}%`);
+          const eff = parts.length ? parts.join(', ') : '*Không có hiệu ứng*';
+          const minStr = t.min < 0 ? `< ${t.min === -200 ? '0' : '-200'}` : `≥ ${t.min}`;
+          return `${t.label} *(${minStr} DV)*: ${eff}`;
+        }).join('\n'),
         inline: false,
       },
     )

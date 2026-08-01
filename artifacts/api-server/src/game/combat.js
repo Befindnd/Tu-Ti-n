@@ -30,7 +30,7 @@ const {
 const {
   fmt, getCG, errE, SEP2, SEP3, tinhCS, CHIEU_THUC, getChieu, DT_TEN, DT_HIEU, calcMaxLinhThach,
 } = require('../utils');
-const { awardDanhVong, DV_POINTS } = require('../utils/danh_vong');
+const { awardDanhVong, DV_POINTS, getDanhVongBonus } = require('../utils/danh_vong');
 
 // ── Session state ─────────────────────────────────────────────────────────
 const COMBAT_SESSIONS  = new Map();
@@ -592,7 +592,8 @@ async function endCombat(session, channel) {
 
     const [loserPlayer, winnerPlayer] = await Promise.all([getPlayer(loserId), getPlayer(winnerId)]);
 
-    const loot         = Math.floor(0.08 * Math.max(0, Number(loserPlayer?.linh_thach || 0)));
+    const winnerDvBonus = getDanhVongBonus(winnerPlayer?.danh_vong);
+    const loot          = Math.floor((0.08 + winnerDvBonus.pvp_loot) * Math.max(0, Number(loserPlayer?.linh_thach || 0)));
     const winnerHpLeft = Math.max(1, Math.floor(p1wins ? session.p1_hp : session.p2_hp));
     const loserHpLeft  = Math.max(1, Math.floor(p1wins ? session.p2_hp : session.p1_hp));
     const loserRatio   = loserHpLeft / (p1wins ? session.p2_hp_max : session.p1_hp_max);
