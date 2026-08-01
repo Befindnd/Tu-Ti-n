@@ -214,6 +214,7 @@ const { checkNgheDotPha } = require('./cultivation');
         coBC
           ? await db("UPDATE players SET binh_canh=TRUE, cam_ngo=$1 WHERE user_id=$2", [camNgoConLai, t])
           : await db("UPDATE players SET cam_ngo=$1 WHERE user_id=$2", [camNgoConLai, t]),
+        awardDanhVong(t, -3), // đột phá thất bại: -3 DV
         n.reply({
           embeds: [
             new EmbedBuilder()
