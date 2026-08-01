@@ -146,7 +146,7 @@ reg("tu_luyen", ["tl", "tu", "tuluyen"], async (msg, args) => {
       await db("UPDATE players SET linh_thach=GREATEST(0,linh_thach-$1) WHERE user_id=$2", [v, e]),
       (A = `\n\n☠️ **Đầu Độc Kích Hoạt!** Tu luyện khuếch tán linh lực — mất **-${fmt(v)} ${CE("tult", "💠")}** *(Ám Vệ đặt bẫy! Dùng \`-giai_doc\` để giải)*`));
     const nBuff = { ...S, dam_doc: 0 };
-    db("UPDATE players SET buff_active=$1 WHERE user_id=$2", [JSON.stringify(nBuff), e]).catch(() => {});
+    await db("UPDATE players SET buff_active=$1 WHERE user_id=$2", [JSON.stringify(nBuff), e]).catch(() => {});
   }
   await db(
     "UPDATE players SET exp=$1, tu_luyen_cd=$2, hp_max=$3, hp=$4, tam_ma=$5, la_ma_tu=$6, cam_ngo=$7 WHERE user_id=$8",

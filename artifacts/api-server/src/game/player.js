@@ -156,10 +156,10 @@ function tinhCS(player) {
 function calcEXP_active(player) {
   const stats   = tinhCS(player);
   const nextCG  = CANH_GIOI[player.canh_gioi + 1];
-  const thisCG  = getCG(player.canh_gioi);
-  const baseExp = nextCG
-    ? Math.floor(0.08 * nextCG.exp_can)  // REDESIGN: 8% (was 7%) for faster progression
-    : Math.floor(0.08 * thisCG.exp_can);
+  // Khi đã đạt cảnh giới tối đa, không còn cảnh giới tiếp theo → trả về 0
+  // (trước đây dùng thisCG.exp_can gây flood EXP vô hạn ở max realm)
+  if (!nextCG) return 0;
+  const baseExp = Math.floor(0.08 * nextCG.exp_can);
   return Math.floor(baseExp * stats.exp_rate);
 }
 

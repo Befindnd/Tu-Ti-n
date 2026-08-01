@@ -82,8 +82,8 @@ function pickEnemyAction(session) {
   const floor    = session.floor;
   const eHpPct   = session.enemy.hp / session.enemy.hp_max;
   const pHpPct   = session.playerHp / session.playerHpMax;
-  const r        = Math.random();
 
+  // Mỗi nhánh dùng random độc lập để xác suất không bị phụ thuộc nhau
   if (floor >= 7 && (session.enemySkillCd || 0) <= 0) {
     const skillChance = floor >= 26 ? 0.38 : floor >= 20 ? 0.32 : floor >= 12 ? 0.26 : 0.20;
     if (Math.random() < skillChance) return 'skill';
@@ -93,14 +93,21 @@ function pickEnemyAction(session) {
   const healChance  = floor > 20 ? 0.08 : 0.15;
   const healTrigger = floor > 20 ? 0.15 : 0.25;
 
-  if (eHpPct < healTrigger && r < healChance && (session.enemyHealCd || 0) <= 0) return 'heal';
+  // Heal — ưu tiên khi máu thấp, random riêng
+  if (eHpPct < healTrigger && (session.enemyHealCd || 0) <= 0 && Math.random() < healChance) return 'heal';
+
+  // Power — random riêng, thêm cơ hội khi player máu thấp
   if ((session.enemyPowerCd || 0) <= 0) {
-    if (pHpPct < 0.3 && r < powerChance * 1.5)     return 'power';
-    if (r < powerChance)                            return 'power';
+    const effectivePower = pHpPct < 0.3 ? powerChance * 1.5 : powerChance;
+    if (Math.random() < effectivePower) return 'power';
   }
-  if (r < powerChance + 0.45)                       return 'atk';
-  if (r < powerChance + 0.60)                       return 'def';
-  if (r < powerChance + 0.70 && (session.enemyHealCd || 0) <= 0) return 'heal';
+
+  // Def — 15% cố định
+  if (Math.random() < 0.15) return 'def';
+
+  // Heal bổ sung (không cần máu thấp) — 10% khi cooldown xong
+  if ((session.enemyHealCd || 0) <= 0 && Math.random() < 0.10) return 'heal';
+
   return 'atk';
 }
 
@@ -300,7 +307,7 @@ function resolveTowerTurn(session, playerAction, selectedBpId, BP_COMBAT, BI_PHA
 
   return {
     win:  enemyDead && !playerDead,
-    lose: playerDead,
+    lose: playerDead && !enemyDead, // cả hai chết cùng lúc → draw, không phải lose
     draw: playerDead && enemyDead,
     log,
   };

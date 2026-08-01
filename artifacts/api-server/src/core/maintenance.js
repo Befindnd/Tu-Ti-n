@@ -16,23 +16,34 @@ async function load() {
 }
 
 async function enable(reason = '') {
-  _on     = true;
-  _reason = reason;
-  await db(
-    `INSERT INTO bot_settings(key,value) VALUES($1,$2::jsonb)
-     ON CONFLICT(key) DO UPDATE SET value=$2::jsonb`,
-    ['maintenance', JSON.stringify({ on: true, reason })],
-  ).catch(() => {});
+  try {
+    await db(
+      `INSERT INTO bot_settings(key,value) VALUES($1,$2::jsonb)
+       ON CONFLICT(key) DO UPDATE SET value=$2::jsonb`,
+      ['maintenance', JSON.stringify({ on: true, reason })],
+    );
+    // Chỉ cập nhật memory sau khi DB thành công
+    _on     = true;
+    _reason = reason;
+  } catch (err) {
+    // Memory không thay đổi — tránh trạng thái không đồng bộ
+    throw new Error(`Bật maintenance thất bại (DB error): ${err.message}`);
+  }
 }
 
 async function disable() {
-  _on     = false;
-  _reason = '';
-  await db(
-    `INSERT INTO bot_settings(key,value) VALUES($1,$2::jsonb)
-     ON CONFLICT(key) DO UPDATE SET value=$2::jsonb`,
-    ['maintenance', JSON.stringify({ on: false, reason: '' })],
-  ).catch(() => {});
+  try {
+    await db(
+      `INSERT INTO bot_settings(key,value) VALUES($1,$2::jsonb)
+       ON CONFLICT(key) DO UPDATE SET value=$2::jsonb`,
+      ['maintenance', JSON.stringify({ on: false, reason: '' })],
+    );
+    // Chỉ cập nhật memory sau khi DB thành công
+    _on     = false;
+    _reason = '';
+  } catch (err) {
+    throw new Error(`Tắt maintenance thất bại (DB error): ${err.message}`);
+  }
 }
 
 module.exports = {

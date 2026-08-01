@@ -85,7 +85,8 @@ reg('emoji_debug', ['emojidebug', 'edebug'], async (msg, _args, client) => {
 
 // Chỉ admin mới dùng được lệnh reload (tốn thời gian + rate limit Discord)
 reg('emoji_reload', ['ereload'], async (msg, _args, client) => {
-  if (ADMIN_ID && msg.author.id !== ADMIN_ID) return;
+  // Fail-closed: block khi ADMIN_ID chưa set thay vì cho qua
+  if (!ADMIN_ID || msg.author.id !== ADMIN_ID) return;
 
   const sent = await msg.reply('⏳ Đang upload lại toàn bộ emoji... (mất khoảng 3–5 phút)');
 
