@@ -109,7 +109,11 @@ reg('thien_dao_bang', ['tdb', 'bxh_dv', 'danhvong'], async (msg) => {
           if (t.dot_pha !== 0) parts.push(`Đột Phá ${t.dot_pha > 0 ? '+' : ''}${Math.round(t.dot_pha * 100)}%`);
           if (t.pvp_loot !== 0) parts.push(`Loot PVP +${Math.round(t.pvp_loot * 100)}%`);
           const eff = parts.length ? parts.join(', ') : '*Không có hiệu ứng*';
-          const minStr = t.min < 0 ? `< ${t.min === -200 ? '0' : '-200'}` : `≥ ${t.min}`;
+          // Lấy ngưỡng trên = min của tier ngay trên trong mảng (index - 1)
+          const idx = DV_TIERS.indexOf(t);
+          const minStr = t.min < 0
+            ? `< ${DV_TIERS[idx - 1]?.min ?? 0}`
+            : `≥ ${t.min}`;
           return `${t.label} *(${minStr} DV)*: ${eff}`;
         }).join('\n'),
         inline: false,
