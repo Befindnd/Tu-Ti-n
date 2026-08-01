@@ -123,7 +123,6 @@ function makePVPCombatRow(sessionKey, disabled = false) {
     new ButtonBuilder().setCustomId(`pvp_biphap_${sessionKey}`).setLabel('Bí Pháp').setStyle(ButtonStyle.Danger).setEmoji('📜').setDisabled(disabled),
     new ButtonBuilder().setCustomId(`pvp_the_${sessionKey}`).setLabel('Hộ Thể').setStyle(ButtonStyle.Secondary).setEmoji('🔰').setDisabled(disabled),
     new ButtonBuilder().setCustomId(`pvp_hoikhi_${sessionKey}`).setLabel('Hồi Linh Khí').setStyle(ButtonStyle.Success).setEmoji('💫').setDisabled(disabled),
-    new ButtonBuilder().setCustomId(`pvp_thua_${sessionKey}`).setLabel('Đầu Hàng').setStyle(ButtonStyle.Secondary).setEmoji('🏳️').setDisabled(disabled),
   );
 }
 
@@ -142,7 +141,6 @@ async function resolveCombatTurn(session) {
   const p2data = session.p2_data;
   let p1AtkMult = 1, p2AtkMult = 1, p1DefMult = 1, p2DefMult = 1;
   let p1Heal = 0, p2Heal = 0;
-  let p1Fled = false, p2Fled = false;
 
   // Apply persisted shield from previous turn(s)
   if ((session.p1_shield_turns || 0) > 0) p1DefMult = session.p1_shield_mult || 0.5;
@@ -209,13 +207,6 @@ async function resolveCombatTurn(session) {
       actCd.hoi_khi = 2;
       log.push(`💫 **${name}** thu công tụ linh — Hồi Linh Khí +**${fmt(healAmt)}** HP! *(CD: 2 lượt)*`);
 
-    } else if (action.type === 'chay') {
-      if (Math.random() < 0.40) {
-        isP1 ? (p1Fled = true) : (p2Fled = true);
-        log.push(`🏳️ **${name}** đầu hàng rút lui! *(bại trận)*`);
-      } else {
-        log.push(`🏳️ **${name}** cố rút lui nhưng bị ngăn cản!`);
-      }
     }
   }
 
@@ -276,7 +267,7 @@ async function resolveCombatTurn(session) {
   if (p1Heal > 0) session.p1_hp = Math.min(session.p1_hp_max, session.p1_hp + p1Heal);
   if (p2Heal > 0) session.p2_hp = Math.min(session.p2_hp_max, session.p2_hp + p2Heal);
 
-  if (!p1Fled && !p2Fled) {
+  {
     // Van Thuy counter-attack chance
     const p1counter = p1data.cong_phap === 'van_thuy' ? 0.15 : 0;
     const p2counter = p2data.cong_phap === 'van_thuy' ? 0.15 : 0;
@@ -520,8 +511,8 @@ async function resolveCombatTurn(session) {
 
   session.log.push(...log);
 
-  const p1Out = session.p1_hp <= 0 || p1Fled;
-  const p2Out = session.p2_hp <= 0 || p2Fled;
+  const p1Out = session.p1_hp <= 0;
+  const p2Out = session.p2_hp <= 0;
 
   if (p1Out || p2Out || session.turn >= session.max_turns) {
     return { done: true, p1_out: p1Out, p2_out: p2Out, tl: log };

@@ -126,8 +126,6 @@ reg('pvp', ['ty_thi', 'dau'], async (msg, args) => {
         if ((myCD.hoi_khi || 0) > 0)
           return msg.reply({ embeds: [warnE(`**Hồi Linh Khí** đang hồi chiêu! Còn **${myCD.hoi_khi} lượt** nữa.`)] });
         action = { type: 'hoi_khi' };
-      } else if (subCmd === 'chay') {
-        action = { type: 'chay' };
       } else if (subCmd === 'bi_phap') {
         const bpId = (args[1] || '').toLowerCase();
         if (!bpId) return msg.reply({ embeds: [errE('Cú pháp: `-pvp bi_phap <id>`')] });
@@ -140,7 +138,7 @@ reg('pvp', ['ty_thi', 'dau'], async (msg, args) => {
           return msg.reply({ embeds: [warnE(`**${BI_PHAP.find(b => b.id === bpId)?.ten}** đang hồi chiêu! (còn **${bpCooldowns[bpId]}** lượt)`)] });
         action = { type: 'bi_phap', bp_id: bpId };
       } else {
-        return msg.reply({ embeds: [errE('Hành động không hợp lệ!\n`danh` · `bao_kich` · `phong_thu` · `hoi_khi` · `bi_phap <id>` · `chay`')] });
+        return msg.reply({ embeds: [errE('Hành động không hợp lệ!\n`danh` · `bao_kich` · `phong_thu` · `hoi_khi` · `bi_phap <id>`')] });
       }
     } else {
       action = { type: 'danh' };
@@ -223,7 +221,7 @@ reg('pvp', ['ty_thi', 'dau'], async (msg, args) => {
     return msg.reply({ embeds: [warnE(`**${targetUser.username}** vừa tỷ thí xong! Hết CD ${cdTsMin(targetPlayer.pvp_cd, 15)}.`)] });
 
   if (COMBAT_SESSIONS.has(userId))
-    return msg.reply({ embeds: [warnE('Đang trong trận chiến! Dùng `-pvp chay` để rút lui.')] });
+    return msg.reply({ embeds: [warnE('Đang trong trận chiến!')] });
   if (COMBAT_SESSIONS.has(targetUser.id))
     return msg.reply({ embeds: [warnE(`**${targetUser.username}** đang trong trận chiến khác!`)] });
 
