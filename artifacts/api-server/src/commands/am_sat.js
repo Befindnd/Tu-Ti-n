@@ -157,7 +157,7 @@ async function xuLyBiCanhKetQua(n, t, e) {
       const ltAmSat = calcMaxLinhThach(h, r);
       if (ltAmSat > 0) await db("UPDATE players SET linh_thach=linh_thach+$1 WHERE user_id=$2", [ltAmSat, t]);
       const { awardDanhVong: _dvAward } = require('../utils/danh_vong');
-      _dvAward(e.id, -3); // nạn nhân bị ám sát thành công: -3 DV
+      _dvAward(e.id, -5); // nạn nhân bị ám sát thành công: -5 DV (tăng từ -3)
       const s = Math.min(3, Math.max(0, a.dao_thuong || 0));
       let l = s,
         m = !1;

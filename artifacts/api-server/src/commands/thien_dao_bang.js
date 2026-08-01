@@ -92,12 +92,12 @@ reg('thien_dao_bang', ['tdb', 'bxh_dv', 'danhvong'], async (msg) => {
       {
         name: `${CE('tip_icon','💡')} Cách Kiếm / Mất Danh Vọng`,
         value: [
-          `⚔️ Thắng PVP **+${DV_POINTS.PVP_WIN}** · Thua PVP **−5**`,
+          `⚔️ Thắng PVP **+${DV_POINTS.PVP_WIN}** · Thua PVP **−8**`,
           `📋 Nhận nhiệm vụ ngày **+${DV_POINTS.MISSION_CLAIM}**`,
           `🏯 Vượt tầng Tower mới **+${DV_POINTS.TOWER_FLOOR}**`,
-          `💥 Đột phá thành công **+${DV_POINTS.DOT_PHA}** · Thất bại **−3**`,
+          `💥 Đột phá thành công **+${DV_POINTS.DOT_PHA}** · Thất bại **−5**`,
           `⚡ Vượt Thiên Kiếp **+${DV_POINTS.VUOT_KIEP}**`,
-          `🗡️ Cướp túi thành công **+${DV_POINTS.CUOP_TUI}** · Bị cướp **−5** · Bị ám sát **−3**`,
+          `🗡️ Cướp túi thành công **+${DV_POINTS.CUOP_TUI}** · Bị cướp **−5** · Bị ám sát **−5**`,
         ].join('\n'),
         inline: false,
       },

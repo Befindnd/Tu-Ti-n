@@ -619,11 +619,13 @@ async function endCombat(session, channel) {
     try {
       await client.query('BEGIN');
       await client.query(
-      'UPDATE players SET pvp_wins=pvp_wins+1, linh_thach=linh_thach+$1, pvp_cd=$2, hp=GREATEST(1,$3), tam_ma=LEAST(100,COALESCE(tam_ma,100)+3), danh_vong=GREATEST(0,COALESCE(danh_vong,0)+10) WHERE user_id=$4',
+      // DV thắng: +8 (theo DV_POINTS.PVP_WIN), không sàn 0 — cho phép leo từ âm lên
+      'UPDATE players SET pvp_wins=pvp_wins+1, linh_thach=linh_thach+$1, pvp_cd=$2, hp=GREATEST(1,$3), tam_ma=LEAST(100,COALESCE(tam_ma,100)+3), danh_vong=LEAST(99999,COALESCE(danh_vong,0)+8) WHERE user_id=$4',
         [safeLoot, now, safeWinnerHp, winnerId],
       );
       await client.query(
-      'UPDATE players SET pvp_losses=pvp_losses+1, linh_thach=GREATEST(0,linh_thach-$1), pvp_cd=$2, hp=GREATEST(1,$3), dao_thuong=$4, dao_thuong_at=CASE WHEN $4>0 THEN $5::BIGINT ELSE 0::BIGINT END, tam_ma=GREATEST(-100,COALESCE(tam_ma,100)-5), danh_vong=GREATEST(0,COALESCE(danh_vong,0)-5) WHERE user_id=$6',
+      // DV thua: -8, bỏ sàn 0 (GREATEST(-9999,...)) — cho phép xuống Ác Danh / Hung Đồ
+      'UPDATE players SET pvp_losses=pvp_losses+1, linh_thach=GREATEST(0,linh_thach-$1), pvp_cd=$2, hp=GREATEST(1,$3), dao_thuong=$4, dao_thuong_at=CASE WHEN $4>0 THEN $5::BIGINT ELSE 0::BIGINT END, tam_ma=GREATEST(-100,COALESCE(tam_ma,100)-5), danh_vong=GREATEST(-9999,COALESCE(danh_vong,0)-8) WHERE user_id=$6',
         [safeLoot, now, safeLoserHp, safeDaoThuong, now, loserId],
       );
       await client.query(
