@@ -28,7 +28,7 @@ const {
 } = require('../utils');
 
 // ── Hằng số ──────────────────────────────────────────────────────────────────
-const CD_CUOP_TUI_MIN = 60;
+const CD_CUOP_TUI_MIN = 360; // 6 giờ
 
 // Địa danh ngẫu nhiên cho flavor text
 const DIA_DANH = [
@@ -90,7 +90,7 @@ reg('cuop_tui', ['cuop', 'giattui', 'rob'], async (msg, args) => {
         `› Thành công: ăn 25–40% Linh Thạch + vật phẩm ngẫu nhiên\n` +
         `› Thất bại: mất 8% Linh Thạch + Đạo Thương\n` +
         `› Thất bại nặng: lộ danh tính cho nạn nhân!\n` +
-        `› CD: **60 phút** · Cần cảnh giới ≥ **Luyện Khí Tầng 5**`,
+        `› CD: **6 giờ** · Cần cảnh giới ≥ **Luyện Khí Tầng 5**`,
       )],
     });
   }
@@ -228,7 +228,7 @@ reg('cuop_tui', ['cuop', 'giattui', 'rob'], async (msg, args) => {
           inline: false,
         },
       )
-      .setFooter({ text: `CD: 60ph · Cướp càng nhiều — Nghiệp Lực càng nặng` });
+      .setFooter({ text: `CD: 6h · Cướp càng nhiều — Nghiệp Lực càng nặng` });
 
     await msg.reply({ embeds: [embed] });
 
