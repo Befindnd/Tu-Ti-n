@@ -30,6 +30,7 @@ const {
 const {
   fmt, getCG, errE, SEP2, SEP3, tinhCS, CHIEU_THUC, getChieu, DT_TEN, DT_HIEU, calcMaxLinhThach,
 } = require('../utils');
+const { awardDanhVong, DV_POINTS } = require('../utils/danh_vong');
 
 // ── Session state ─────────────────────────────────────────────────────────
 const COMBAT_SESSIONS  = new Map();
@@ -591,7 +592,7 @@ async function endCombat(session, channel) {
 
     const [loserPlayer, winnerPlayer] = await Promise.all([getPlayer(loserId), getPlayer(winnerId)]);
 
-    const loot         = Math.floor(0.03 * Math.max(0, Number(loserPlayer?.linh_thach || 0)));
+    const loot         = Math.floor(0.08 * Math.max(0, Number(loserPlayer?.linh_thach || 0)));
     const winnerHpLeft = Math.max(1, Math.floor(p1wins ? session.p1_hp : session.p2_hp));
     const loserHpLeft  = Math.max(1, Math.floor(p1wins ? session.p2_hp : session.p1_hp));
     const loserRatio   = loserHpLeft / (p1wins ? session.p2_hp_max : session.p1_hp_max);
@@ -617,7 +618,7 @@ async function endCombat(session, channel) {
     try {
       await client.query('BEGIN');
       await client.query(
-      'UPDATE players SET pvp_wins=pvp_wins+1, linh_thach=linh_thach+$1, pvp_cd=$2, hp=GREATEST(1,$3), tam_ma=LEAST(100,COALESCE(tam_ma,100)+3) WHERE user_id=$4',
+      'UPDATE players SET pvp_wins=pvp_wins+1, linh_thach=linh_thach+$1, pvp_cd=$2, hp=GREATEST(1,$3), tam_ma=LEAST(100,COALESCE(tam_ma,100)+3), danh_vong=GREATEST(0,COALESCE(danh_vong,0)+10) WHERE user_id=$4',
         [safeLoot, now, safeWinnerHp, winnerId],
       );
       await client.query(

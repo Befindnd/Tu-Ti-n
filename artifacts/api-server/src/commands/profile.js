@@ -133,7 +133,7 @@ const TU_LUYEN_CD_H = 1;
             .setColor(embedClr(e.canh_gioi))
             .setThumbnail(t.displayAvatarURL())
             .setDescription([
-              `${CE("tult","💠")} **${fmt(e.linh_thach)}**${Number(e.linh_thach_trung||0)>0?` · ${CE("tult_trung","🔮")} **${fmt(e.linh_thach_trung)}**`:""}${Number(e.linh_thach_cao||0)>0?` · ${CE("tult_cao","💚")} **${fmt(e.linh_thach_cao)}**`:""} ❧ ${CE('ft_pvp','⚔️')} **${e.pvp_wins}W/${e.pvp_losses}L**${(e.dao_thuong||0)>0?` ❧ ${["",...[CE('dt_nhe','🟡'),CE('dt_trung','🟠'),CE('dt_nang','🔴')]][e.dao_thuong]} Đạo Thương **${e.dao_thuong}**`:""}  `,
+              `${CE("tult","💠")} **${fmt(e.linh_thach)}**${Number(e.linh_thach_trung||0)>0?` · ${CE("tult_trung","🔮")} **${fmt(e.linh_thach_trung)}**`:""}${Number(e.linh_thach_cao||0)>0?` · ${CE("tult_cao","💚")} **${fmt(e.linh_thach_cao)}**`:""} ❧ ${CE('ft_pvp','⚔️')} **${e.pvp_wins}W/${e.pvp_losses}L**${(e.dao_thuong||0)>0?` ❧ ${["",...[CE('dt_nhe','🟡'),CE('dt_trung','🟠'),CE('dt_nang','🔴')]][e.dao_thuong]} Đạo Thương **${e.dao_thuong}**`:""} ❧ 🏆 **${fmt(e.danh_vong||0)} DV**  `,
               `${pBar(d)} ${d < 100 ? `**${d}%** *(+${fmt(g?g-m:0)} TV)*` : "**ĐẠT ĐỈNH**"} ❧ ${f}`,
             ].join("\n"))
             .addFields(

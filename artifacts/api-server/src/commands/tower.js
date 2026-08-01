@@ -19,6 +19,7 @@ const {
   COMMANDS, reg, tinhCS, calcMaxLinhThach,
 } = require('../utils');
 const { BP_COMBAT, hpBar, hpHeart } = require('../game/combat');
+const { awardDanhVong, DV_POINTS } = require('../utils/danh_vong');
 const { BI_PHAP, getTT }            = require('../data');
 
 // ── Engine imports ────────────────────────────────────────────────────────────
@@ -245,6 +246,9 @@ async function endSession(session, success) {
   const currentTop = Number(player.thap_tang || 0);
   const newTop     = Math.max(currentTop, topFloor);
   const extras     = [];
+
+  // Thưởng Danh Vọng khi đạt tầng cao nhất mới
+  if (topFloor > currentTop) awardDanhVong(userId, DV_POINTS.TOWER_FLOOR);
 
   // One-time milestone rewards
   const already10 = currentTop >= 10;

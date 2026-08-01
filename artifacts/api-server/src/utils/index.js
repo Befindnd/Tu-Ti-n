@@ -25,6 +25,7 @@ module.exports = {
   ...require('./donate'),       // DONATE_DATA, makeDonateEmbed, etc.
   ...require('./linh_thach_spend'), // totalLT, calcSpend, RATE_TRUNG, RATE_CAO
   // ── New modular utils (new structure) ───────────────────────────────────
-  cooldown: require('./cooldown'),   // isOnCooldown, cdRemH, cdRemM, fmtCD
-  logger:   require('./logger'),     // logger.info, logger.error, logger.child
+  cooldown:    require('./cooldown'),      // isOnCooldown, cdRemH, cdRemM, fmtCD
+  logger:      require('./logger'),       // logger.info, logger.error, logger.child
+  danhVong:    require('./danh_vong'),    // awardDanhVong, DV_POINTS
 };

@@ -64,6 +64,7 @@ require('./commands/xem_emoji');
 require('./commands/gacha');
 require('./commands/emoji_status');
 require('./commands/cuop_tui');
+require('./commands/thien_dao_bang');
 
 // ── Event and interaction handlers ───────────────────────────────────────
 const setupReady              = require('./events/ready');

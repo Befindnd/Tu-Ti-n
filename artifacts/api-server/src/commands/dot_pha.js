@@ -5,6 +5,7 @@ const { getPlayer } = require('../db/players');
 const { CE } = require('../systems/emoji');
 const { CANH_GIOI, NGHE, THIEN_KIEP_NGUONG, CG_EMOJI } = require('../data');
 const { fmt, getCG, pBar, errE, warnE, okE, tinhCS, reg } = require('../utils');
+const { awardDanhVong, DV_POINTS } = require('../utils/danh_vong');
 const { calcDotPhaSuccess } = require('../game/cultivation_engine');
 const { checkNgheDotPha } = require('./cultivation');
 
@@ -168,6 +169,7 @@ const { checkNgheDotPha } = require('./cultivation');
           "UPDATE players SET canh_gioi=$1, hp_max=$2, hp=$3, cam_ngo=0, exp=0, binh_canh=FALSE WHERE user_id=$4",
           [h, c, _, t],
         ),
+        awardDanhVong(t, DV_POINTS.DOT_PHA),
         n.reply({
           embeds: [
             new EmbedBuilder()

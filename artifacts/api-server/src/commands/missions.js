@@ -5,6 +5,7 @@ const {
   StringSelectMenuBuilder, StringSelectMenuOptionBuilder, MessageFlags,
 } = require('discord.js');
 const { db } = require('../db/pool');
+const { awardDanhVong, DV_POINTS } = require('../utils/danh_vong');
 const { getPlayer, awardBiPhap, awardLinhThao } = require('../db/players');
 const { CE } = require('../systems/emoji');
 const {
@@ -131,6 +132,7 @@ const DT_TEN = ["✅ Lành Mạnh", "🟡 Đạo Thương Nhẹ", "🟠 Đạo T
         "UPDATE players SET linh_thach=linh_thach+$1, exp=exp+$2, daily_missions=$3 WHERE user_id=$4",
         [ltGain, expGain, JSON.stringify(i), e],
       );
+      awardDanhVong(e, DV_POINTS.MISSION_CLAIM);
 
       const remaining = Math.max(0, NHIEM_VU_LIST.length - a.length),
         allDone = remaining === 0;

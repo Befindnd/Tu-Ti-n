@@ -26,6 +26,7 @@ const {
   COMMANDS, reg,
   calcMaxLinhThach, getBagCapacity, calcBagWeight,
 } = require('../utils');
+const { awardDanhVong, DV_POINTS } = require('../utils/danh_vong');
 
 // ── Hằng số ──────────────────────────────────────────────────────────────────
 const CD_CUOP_TUI_MIN = 360; // 6 giờ
@@ -186,6 +187,7 @@ reg('cuop_tui', ['cuop', 'giattui', 'rob'], async (msg, args) => {
       // Nhân quả -3
       await db('UPDATE players SET nhan_qua = GREATEST(-100, nhan_qua - 3), ma_khi = ma_khi + 2 WHERE user_id=$1', [userId]);
       await db('COMMIT');
+      awardDanhVong(userId, DV_POINTS.CUOP_TUI);
     } catch (e) {
       await db('ROLLBACK');
       return msg.reply({ embeds: [errE('Lỗi khi xử lý giao dịch! Thử lại sau.')] });
