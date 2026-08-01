@@ -210,30 +210,31 @@ const { checkNgheDotPha } = require('./cultivation');
     {
       const binhCanhRate = 0.22,
         coBC = Math.random() < binhCanhRate,
-        camNgoMat = Math.floor(0.20 * a),
-        camNgoConLai = Math.max(0, a - camNgoMat);
-      return (
-        coBC
-          ? await db("UPDATE players SET binh_canh=TRUE, cam_ngo=$1 WHERE user_id=$2", [camNgoConLai, t])
-          : await db("UPDATE players SET cam_ngo=$1 WHERE user_id=$2", [camNgoConLai, t]),
-        awardDanhVong(t, -5), // đột phá thất bại: -5 DV (tăng từ -3)
-        n.reply({
-          embeds: [
-            new EmbedBuilder()
-              .setTitle(coBC ? "🧱 ĐỘT PHÁ THẤT BẠI — KINH MẠCH TẮC NGHẼN!" : "💔 Đột Phá Thất Bại!")
-              .setColor(coBC ? 9109504 : 15158332)
-              .setThumbnail(n.author.displayAvatarURL())
-              .setDescription(
-                (coBC
-                  ? `🧱 **Bình Cảnh hình thành!** Đường đột phá bị phong bế.\n${CE("tip_icon","💡")} Cảm Ngộ -${camNgoMat}% → còn **${camNgoConLai}%**\n*Tìm \`-co_duyen\` hoặc \`-bi_canh\` để khai thông.*`
-                  : `💔 Tâm linh chưa đủ vững — thất bại!\n${CE("tip_icon","💡")} Cảm Ngộ -${camNgoMat}% → còn **${camNgoConLai}%**\n*Tiếp tục tu luyện tích lũy Cảm Ngộ.*`) +
-                (trung_can > 0 ? `\n${CE("tult_trung","🔮")} −${trung_can} Linh Thạch Trung đã tiêu thụ trong lần thử.` : "") +
-                (cao_can   > 0 ? `\n${CE("tult_cao","💚")} −${cao_can} Linh Thạch Cao đã tiêu thụ trong lần thử.` : ""),
-              )
-              .setFooter({ text: `Xác suất thành công: ${Math.round(100 * r)}%` }),
-          ],
-        })
-      );
+        camNgoMat    = Math.floor(0.20 * a),
+        camNgoConLai = Math.max(0, a - camNgoMat),
+        // Tu vi bị mất khi thất bại: 10% exp hiện tại, không xuống dưới 0
+        expMat       = Math.floor(i * 0.10),
+        expConLai    = Math.max(0, i - expMat);
+      await (coBC
+        ? db("UPDATE players SET binh_canh=TRUE, cam_ngo=$1, exp=$2 WHERE user_id=$3", [camNgoConLai, expConLai, t])
+        : db("UPDATE players SET cam_ngo=$1, exp=$2 WHERE user_id=$3", [camNgoConLai, expConLai, t]));
+      awardDanhVong(t, -5); // đột phá thất bại: -5 DV
+      return n.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(coBC ? "🧱 ĐỘT PHÁ THẤT BẠI — KINH MẠCH TẮC NGHẼN!" : "💔 Đột Phá Thất Bại!")
+            .setColor(coBC ? 9109504 : 15158332)
+            .setThumbnail(n.author.displayAvatarURL())
+            .setDescription(
+              (coBC
+                ? `🧱 **Bình Cảnh hình thành!** Đường đột phá bị phong bế.\n${CE("tip_icon","💡")} Cảm Ngộ -${camNgoMat}% → còn **${camNgoConLai}%**\n${CE("tutv","📈")} Tu Vi -${fmt(expMat)} → còn **${fmt(expConLai)}**\n*Tìm \`-co_duyen\` hoặc \`-bi_canh\` để khai thông.*`
+                : `💔 Tâm linh chưa đủ vững — thất bại!\n${CE("tip_icon","💡")} Cảm Ngộ -${camNgoMat}% → còn **${camNgoConLai}%**\n${CE("tutv","📈")} Tu Vi -${fmt(expMat)} → còn **${fmt(expConLai)}**\n*Tiếp tục tu luyện tích lũy tu vi.*`) +
+              (trung_can > 0 ? `\n${CE("tult_trung","🔮")} −${trung_can} Linh Thạch Trung đã tiêu thụ trong lần thử.` : "") +
+              (cao_can   > 0 ? `\n${CE("tult_cao","💚")} −${cao_can} Linh Thạch Cao đã tiêu thụ trong lần thử.` : ""),
+            )
+            .setFooter({ text: `Xác suất thành công: ${Math.round(100 * r)}%` }),
+        ],
+      });
     }
     } catch (dbErr) {
       // DB lỗi sau khi đã trừ LT → hoàn lại toàn bộ để tránh mất tiền oan
