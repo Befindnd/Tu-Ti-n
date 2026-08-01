@@ -63,6 +63,7 @@ require('./commands/emoji_debug');
 require('./commands/xem_emoji');
 require('./commands/gacha');
 require('./commands/emoji_status');
+require('./commands/cuop_tui');
 
 // ── Event and interaction handlers ───────────────────────────────────────
 const setupReady              = require('./events/ready');

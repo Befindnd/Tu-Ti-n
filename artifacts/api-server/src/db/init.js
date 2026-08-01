@@ -117,6 +117,7 @@ async function initDB() {
     'ALTER TABLE players ADD COLUMN IF NOT EXISTS linh_thach_cao BIGINT DEFAULT 0',
     // ── Săn Linh Thú ──────────────────────────────────────────────────────
     'ALTER TABLE players ADD COLUMN IF NOT EXISTS san_linh_thu_cd BIGINT DEFAULT 0',
+    'ALTER TABLE players ADD COLUMN IF NOT EXISTS cuop_tui_cd BIGINT DEFAULT 0',
     "ALTER TABLE players ADD COLUMN IF NOT EXISTS vat_pham JSONB DEFAULT '{}'",
     'ALTER TABLE players ADD COLUMN IF NOT EXISTS dao_tu TEXT DEFAULT NULL',
     'ALTER TABLE players ADD COLUMN IF NOT EXISTS ve_doi_dao_tu INTEGER DEFAULT 0',
