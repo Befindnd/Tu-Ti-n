@@ -29,12 +29,15 @@ const DV_POINTS = {
 // Ngưỡng âm hạ xuống để tier Ác Danh / Hung Đồ thực sự có thể đạt được.
 // Trước: -200 / -9999 → gần như vô hình vì DV bị sàn 0 trong PVP.
 // Sau: -80 / -400 → người chơi thua liên tiếp ~10 trận sẽ cảm nhận được debuff.
+// Buff lợi (exp, dot_pha, pvp_loot) được cắt giảm ~40% so với trước
+// để Danh Vọng cao là lợi thế nhỏ, không phải snowball tự động.
+// Debuff tier âm giữ nguyên để hình phạt vẫn đáng sợ.
 const DV_TIERS = [
-  { min:  5000, label: '👑 Thiên Đạo Chi Chủ', color: 0xF1C40F, exp:  0.20, dot_pha:  0.08, pvp_loot: 0.05 },
-  { min:  2000, label: '💎 Thần Cấp',           color: 0x9B59B6, exp:  0.15, dot_pha:  0.05, pvp_loot: 0.03 },
-  { min:  1000, label: '🏅 Tôn Giả',            color: 0x3498DB, exp:  0.10, dot_pha:  0.03, pvp_loot: 0.01 },
-  { min:   500, label: '🥈 Đại Năng',           color: 0x2ECC71, exp:  0.05, dot_pha:  0.01, pvp_loot: 0.00 },
-  { min:   100, label: '🥉 Tu Sĩ',              color: 0x95A5A6, exp:  0.02, dot_pha:  0.00, pvp_loot: 0.00 },
+  { min:  5000, label: '👑 Thiên Đạo Chi Chủ', color: 0xF1C40F, exp:  0.12, dot_pha:  0.05, pvp_loot: 0.03 },
+  { min:  2000, label: '💎 Thần Cấp',           color: 0x9B59B6, exp:  0.08, dot_pha:  0.03, pvp_loot: 0.02 },
+  { min:  1000, label: '🏅 Tôn Giả',            color: 0x3498DB, exp:  0.05, dot_pha:  0.02, pvp_loot: 0.01 },
+  { min:   500, label: '🥈 Đại Năng',           color: 0x2ECC71, exp:  0.03, dot_pha:  0.01, pvp_loot: 0.00 },
+  { min:   100, label: '🥉 Tu Sĩ',              color: 0x95A5A6, exp:  0.01, dot_pha:  0.00, pvp_loot: 0.00 },
   { min:     0, label: '⬜ Vô Danh',            color: 0x607080, exp:  0.00, dot_pha:  0.00, pvp_loot: 0.00 },
   { min:   -80, label: '🔴 Ác Danh',            color: 0xE74C3C, exp: -0.05, dot_pha: -0.03, pvp_loot: 0.00 },
   { min:  -400, label: '💀 Hung Đồ',            color: 0x2C3E50, exp: -0.15, dot_pha: -0.08, pvp_loot: 0.00 },

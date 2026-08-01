@@ -96,7 +96,7 @@ reg('thien_dao_bang', ['tdb', 'bxh_dv', 'danhvong'], async (msg) => {
           `📋 Nhận nhiệm vụ ngày **+${DV_POINTS.MISSION_CLAIM}**`,
           `🏯 Vượt tầng Tower mới **+${DV_POINTS.TOWER_FLOOR}**`,
           `💥 Đột phá thành công **+${DV_POINTS.DOT_PHA}** · Thất bại **−5**`,
-          `⚡ Vượt Thiên Kiếp **+${DV_POINTS.VUOT_KIEP}**`,
+          `⚡ Vượt Thiên Kiếp thành công **+${DV_POINTS.VUOT_KIEP}** · Thất bại **−12**`,
           `🗡️ Cướp túi thành công **+${DV_POINTS.CUOP_TUI}** · Bị cướp **−5** · Bị ám sát **−5**`,
         ].join('\n'),
         inline: false,

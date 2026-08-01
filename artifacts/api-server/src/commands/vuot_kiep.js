@@ -48,6 +48,7 @@ const {
   buildVuotKiepTable,
   rollVuotKiepResult,
 } = require('../game/cultivation_engine');
+const { awardDanhVong, DV_POINTS } = require('../utils/danh_vong');
 
 const TU_LUYEN_CD_H = 1;
 const { checkNgheDotPha } = require('./cultivation');
@@ -160,6 +161,7 @@ const { checkNgheDotPha } = require('./cultivation');
       ((b = h.cap), d.exp_bonus > 0 && (y = Math.floor($ * d.exp_bonus)), ($ += y));
       const n = "ngo_dao" === d.id ? 5 : 2;
       await db("UPDATE players SET khi_van=LEAST(100,khi_van+$1) WHERE user_id=$2", [n, t]);
+      awardDanhVong(t, DV_POINTS.VUOT_KIEP); // thành công: +18 DV
     } else {
       $ = Math.floor(h.exp_can * 0.75);
       kiep_cd_set = cd_fail;
@@ -167,6 +169,7 @@ const { checkNgheDotPha } = require('./cultivation');
         "UPDATE players SET nhan_qua=GREATEST(-100,nhan_qua-5), ma_khi=ma_khi+5, binh_canh=TRUE, dao_thuong=LEAST(3,dao_thuong+2) WHERE user_id=$1",
         [t],
       );
+      awardDanhVong(t, -12); // thất bại: -12 DV (kiếp nạn nặng nề)
     }
     const { hp_max: E } = tinhCS({ ...e, canh_gioi: b }),
       f = d.thanh_cong
