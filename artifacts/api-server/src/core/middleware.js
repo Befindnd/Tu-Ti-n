@@ -129,8 +129,11 @@ function setupMessageHandler(client) {
       for (let i = 0; i < 500; i++) _seenMsgIds.delete(iter.next().value);
     }
 
-    const args = msg.content.slice(1).trim().split(/\s+/);
-    const cmd  = args.shift().toLowerCase();
+    const rawText = msg.content.slice(1).trim();
+    if (!rawText) return;
+    const args = rawText.split(/\s+/);
+    const cmd  = (args.shift() || '').toLowerCase();
+    if (!cmd) return;
     const handler = COMMANDS.get(cmd);
     if (!handler) return;
 
