@@ -267,6 +267,14 @@ async function initDB() {
     )
   `).catch((e) => console.warn('⚠️ Init sect_wars table error:', e.message));
 
+  // Tự động xóa dữ liệu Tông Môn NPC cũ trong database người chơi
+  await db(`
+    UPDATE players 
+    SET tong_mon = NULL, tong_mon_cap = 'ngoai_mon' 
+    WHERE tong_mon IN ('thanh_van', 'huyen_thien', 'van_kiem', 'ma_than', 'Thanh Vân Tông', 'Huyền Thiên Tông', 'Vạn Kiếm Tông', 'Ma Thần Tông')
+       OR (tong_mon IS NOT NULL AND tong_mon NOT IN (SELECT name FROM sects))
+  `).catch(() => {});
+
   console.log('✅ Database khởi tạo xong.');
 }
 
