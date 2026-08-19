@@ -1,15 +1,18 @@
 {
   "name": "@workspace/api-server",
-  "version": "1.0.0",
+  "version": "2.5.0",
   "private": true,
   "scripts": {
-    "start": "node --no-deprecation src/index.js",
-    "dev": "node --no-deprecation src/index.js"
+    "start": "node --no-deprecation artifacts/api-server/src/index.js",
+    "dev": "node --no-deprecation artifacts/api-server/src/index.js"
   },
   "dependencies": {
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
     "pg": "^8.13.3",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "sharp": "^0.33.5",
+    "@napi-rs/canvas": "^0.1.67",
+    "mbbank": "^1.8.10"
   }
 }
