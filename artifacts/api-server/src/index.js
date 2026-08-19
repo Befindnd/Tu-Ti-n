@@ -132,6 +132,7 @@ client.login(process.env.DISCORD_TOKEN).catch((err) => {
 });
 
 client.once('ready', () => {
+  console.log('🚀 [Tu Tiên Bot v2.5] Hệ Thống Khai Tông Lập Phái & PK Tông Môn Chiến đã kích hoạt thành công!');
   startWebhookServer(client, applyGiftcodeRewards).catch((e) =>
     console.error('[pay] Khởi động thất bại:', e.message),
   );
