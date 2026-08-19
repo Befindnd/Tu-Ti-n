@@ -94,16 +94,19 @@ const HD_GROUPS = {
   },
 
   tongmon: {
-    emoji: '🏯', ten: 'Tông Môn', color: 0xE67E22,
+    emoji: '🏯', ten: 'Tông Môn & PK Chiến', color: 0xE67E22,
     lenh: [
-      '**`-tm`** — Xem Tứ Đại Tông Môn & thế mạnh',
-      '**`-tm gia_nhap <id>`** — Gia nhập tông môn',
-      '**`-tm thong_tin`** — Thông tin tông môn đang ở',
-      '**`-tm cap`** — Danh sách cấp bậc trong tông',
-      '**`-tm len_cap`** — Thăng cấp trong tông môn',
-      '**`-tm roi`** — Rời tông môn *(có phạt Linh Thạch)*',
+      '**`-tongmon tao <tên> [khẩu hiệu]`** — Khai Sơn Lập Phái *(Kim Đan Kỳ + 5,000 LT)*',
+      '**`-tongmon thongtin [tên]`** — Xem thông tin tông môn, ngân khố & Hộ Sơn Trận Pháp',
+      '**`-tongmon gia_nhap <tên>`** — Gia nhập Tông Môn của đạo hữu khác',
+      '**`-tongmon donggop <số lượng>`** — Đóng góp Linh Thạch vào Ngân Khố',
+      '**`-tongmon nangcap`** — Nâng cấp Hộ Sơn Trận Pháp phòng thủ',
+      '**`-tongmon tuyenchien <tên địch>`** — Phát động PK Huyết Chiến với Tông Môn địch',
+      '**`-tongmon tapkich`** — Oanh tạc Trận Pháp địch, cướp 20% Ngân Khố & Điểm PK',
+      '**`-tongmon bxh`** — Bảng Xếp Hạng Điểm PK Thế Lực Tông Môn',
+      '**`-tongmon roi`** — Rời tông môn hiện tại',
     ].join('\n'),
-    chu: '⬡ Cấp bậc: **Ngoại Môn → Nội Môn → Chân Truyền → Thánh Tử → Tông Chủ**\n⬡ Cấp càng cao → bonus chiến đấu & Tu Vi càng lớn\n⬡ Mỗi tông có thế mạnh riêng — dùng `-tm` để so sánh trước khi gia nhập',
+    chu: '⬡ Tự do sáng lập Tông Môn khi đạt Kim Đan Kỳ (Tầng 10) & 5,000 Linh Thạch\n⬡ Trận Pháp càng cao → Kháng sát thương và độ bền HP càng lớn khi bị tập kích\n⬡ Tông Chủ & Phó Tông Chủ có quyền Tuyên Chiến và Nâng Cấp Trận Pháp',
   },
 
   trangbi: {

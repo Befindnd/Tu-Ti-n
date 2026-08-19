@@ -154,9 +154,18 @@ const TU_LUYEN_CD_H = 1;
                   const gtLine = gtInfo
                     ? `${GIA_TOC_DO_QUY_EMOJI[gtInfo.do_quy] || '⬜'} ${gtInfo.emoji} **${gtInfo.ten}** *(${gtInfo.do_quy_ten})*`
                     : "🏚️ *Chưa có gia tộc*";
+                  const ROLE_NAMES = {
+                    tong_chu: '👑 Tông Chủ',
+                    pho_tong_chu: '⚔️ Phó Tông Chủ',
+                    truong_lao: '🔮 Trưởng Lão',
+                    chap_su: '📜 Chấp Sự',
+                    noi_mon: '🟢 Nội Môn',
+                    ngoai_mon: '⚪ Ngoại Môn',
+                  };
+                  const roleStr = ROLE_NAMES[e.tong_mon_cap] || '⚪ Ngoại Môn';
                   const monLine = e.tong_mon
-                    ? (TONG_MON[e.tong_mon] ? `${TONG_MON[e.tong_mon].emoji} ${TONG_MON[e.tong_mon].ten} · ${$.emoji} ${$.ten}` : "*Không rõ*")
-                    : "*Chưa gia nhập*";
+                    ? `🏯 **${e.tong_mon}** · ${roleStr}`
+                    : "🏯 *Chưa gia nhập phái*";
                   return `${gtLine}\n${monLine}\n${p ? `${p.emoji} ${p.ten}` : `${CE("dp_linh_son","🏔️")} *Chưa có động phủ*`}`;
                 })(),
                 inline: true,

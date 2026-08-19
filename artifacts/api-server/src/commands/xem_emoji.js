@@ -104,8 +104,8 @@ const GROUPS = [
   },
   {
     label: '🏯 Tông Môn', color: 0x9b59b6,
-    keys: ['tm_thanh_van','tm_huyen_thien','tm_van_kiem','tm_ma_than'],
-    names: ['Thanh Vân','Huyền Thiên','Vạn Kiếm','Ma Thần'],
+    keys: ['ft_tong_mon','tmcb_tong_chu'],
+    names: ['Tông Môn','Tông Chủ'],
   },
   {
     label: '🎖️ Cấp Bậc Tông', color: 0x8e44ad,
