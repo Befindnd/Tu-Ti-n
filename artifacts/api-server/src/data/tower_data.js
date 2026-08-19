@@ -70,7 +70,7 @@ const TOWER_CHALLENGES = [
   },
   {
     question: "🏯 Tông Môn nào **không yêu cầu** Cảnh Giới tối thiểu?",
-    options: ["A. Huyền Thiên Tông (T5)", "B. Vạn Kiếm Môn (T10)", "C. Thanh Vân Tông", "D. Ma Thần Điện (T10)"],
+    options: ["A. Đạt Kim Đan Kỳ & 5,000 Linh Thạch", "B. Tự động gia nhập", "C. Chỉ cần 100 Linh Thạch", "D. Không có điều kiện"],
     correct: "c",
   },
   {
