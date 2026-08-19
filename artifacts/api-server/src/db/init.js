@@ -230,6 +230,43 @@ async function initDB() {
     )`,
   ).catch(() => {});
 
+  // ── Hệ Thống Tông Môn & PK Tông Môn Mới ───────────────────────────────
+  await db(`
+    CREATE TABLE IF NOT EXISTS sects (
+      id                       SERIAL PRIMARY KEY,
+      name                     TEXT UNIQUE NOT NULL,
+      leader_id                TEXT NOT NULL,
+      leader_name              TEXT NOT NULL,
+      level                    INT DEFAULT 1,
+      spirit_treasury          BIGINT DEFAULT 0,
+      formation_level          INT DEFAULT 1,
+      formation_durability     BIGINT DEFAULT 10000,
+      max_formation_durability BIGINT DEFAULT 10000,
+      pk_points                INT DEFAULT 1000,
+      wars_won                 INT DEFAULT 0,
+      wars_lost                INT DEFAULT 0,
+      slogan                   TEXT DEFAULT 'Nhất đạo thông thiên, vạn cổ trường tồn!',
+      max_members              INT DEFAULT 20,
+      created_at               TIMESTAMP DEFAULT NOW(),
+      updated_at               TIMESTAMP DEFAULT NOW()
+    )
+  `).catch((e) => console.warn('⚠️ Init sects table error:', e.message));
+
+  await db(`
+    CREATE TABLE IF NOT EXISTS sect_wars (
+      id                  SERIAL PRIMARY KEY,
+      attacker_sect_id    INT NOT NULL,
+      defender_sect_id    INT NOT NULL,
+      status              TEXT DEFAULT 'active',
+      attacker_damage     BIGINT DEFAULT 0,
+      defender_damage     BIGINT DEFAULT 0,
+      plundered_stones    BIGINT DEFAULT 0,
+      pk_points_exchanged INT DEFAULT 0,
+      started_at          TIMESTAMP DEFAULT NOW(),
+      ended_at            TIMESTAMP DEFAULT NULL
+    )
+  `).catch((e) => console.warn('⚠️ Init sect_wars table error:', e.message));
+
   console.log('✅ Database khởi tạo xong.');
 }
 
