@@ -1,20 +1,2 @@
 uploads = []
 generated = []
-
-[[outputs]]
-id = "kyv0efwidQJHH-u2GMTZu"
-uri = "file://emoji_ve_linh_can.png"
-type = "image"
-title = "🔮 Vé Đổi Linh Căn"
-
-[[outputs]]
-id = "A2CcKdhvttQJuz9GObb93"
-uri = "file://emoji_ve_huyet_mach.png"
-type = "image"
-title = "🩸 Vé Đổi Huyết Mạch"
-
-[[outputs]]
-id = "jTxP8zqGPdE_Fxx6EeWj9"
-uri = "file://emoji_ve_nghe.png"
-type = "image"
-title = "⚒️ Vé Nghề"
