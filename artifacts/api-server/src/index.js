@@ -128,6 +128,13 @@ antiraidLog.load().catch((e) => console.error('[init] Loi tai antiraid_log:', e.
 
 client.login(process.env.DISCORD_TOKEN).catch((err) => {
   console.error('❌ Đăng nhập thất bại:', err.message);
+  if (/disallowed intents/i.test(String(err.message))) {
+    console.error(
+      '👉 Discord đang từ chối Privileged Gateway Intents. ' +
+      'Bật Message Content Intent trong Developer Portal nếu dùng lệnh prefix; ' +
+      'chỉ bật DISCORD_ENABLE_GUILD_MEMBERS_INTENT=true sau khi đã bật Server Members Intent.',
+    );
+  }
   process.exit(1);
 });
 
