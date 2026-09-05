@@ -58,7 +58,7 @@ async function showHelp(msg) {
     .setTitle(`${CE('ft_tong_mon', '🏯')} HỆ THỐNG TÔNG MÔN — PHIÊN BẢN MỚI`)
     .setColor(0x9b59b6)
     .setDescription(
-      `*Một tông môn thật sự có người, chức vụ, ngân khố và lịch sử riêng.*\n\n${SEP}\n` +
+      `${SEP}\n` +
       `${CE('ft_tong_mon', '🔹')} \`-tongmon tao <tên> [khẩu hiệu]\` — Khai sơn lập phái\n` +
       `${CE('ft_tong_mon', '🔹')} \`-tongmon thongtin [tên]\` — Xem hồ sơ tông môn\n` +
       `${CE('ft_tong_mon', '🔹')} \`-tongmon gia_nhap <tên>\` — Gửi đơn xin nhập môn\n` +
