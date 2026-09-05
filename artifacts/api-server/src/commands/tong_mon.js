@@ -46,7 +46,7 @@ function sectSummary(s) {
   return [
     `${CE('ft_tong_mon', '🏯')} **${s.name}** · Cấp **${s.level}**`,
     `${CE('tmcb_tong_chu', '👑')} Tông Chủ: **${s.leader_name}**`,
-    `📜 ${s.slogan || 'Chưa lập khẩu hiệu.'}`,
+    `${CE('cp_thap_huyen', '📜')} ${s.slogan || 'Chưa lập khẩu hiệu.'}`,
     `${CE('tult', '💠')} Ngân khố: **${fmt(s.spirit_treasury)}**`,
     `${CE('tutv', '📈')} Cống hiến: **${fmt(s.total_contribution || 0)}** · Thành viên tối đa: **${s.max_members}**`,
     `${CE('tuatk', '⚔️')} PK: **${fmt(s.pk_points)}** · Thắng **${s.wars_won}** / Thua **${s.wars_lost}**`,
@@ -59,18 +59,18 @@ async function showHelp(msg) {
     .setColor(0x9b59b6)
     .setDescription(
       `*Một tông môn thật sự có người, chức vụ, ngân khố và lịch sử riêng.*\n\n${SEP}\n` +
-      `🔹 \`-tongmon tao <tên> [khẩu hiệu]\` — Khai sơn lập phái\n` +
-      `🔹 \`-tongmon thongtin [tên]\` — Xem hồ sơ tông môn\n` +
-      `🔹 \`-tongmon gia_nhap <tên>\` — Gửi đơn xin nhập môn\n` +
-      `🔹 \`-tongmon thanhvien\` — Xem môn nhân\n` +
-      `🔹 \`-tongmon duyet [user_id]\` — Duyệt đơn gia nhập\n` +
-      `🔹 \`-tongmon tuchoi [user_id]\` — Từ chối đơn\n` +
-      `🔹 \`-tongmon chucvu [user_id] <pho|truonglao|de_tu>\` — Đổi chức vụ\n` +
-      `🔹 \`-tongmon truyenvi [user_id]\` — Truyền vị Tông Chủ\n` +
-      `🔹 \`-tongmon donggop <số lượng>\` — Cống hiến vào ngân khố\n` +
-      `🔹 \`-tongmon nangcap\` — Nâng cấp tông môn bằng ngân khố\n` +
-      `🔹 \`-tongmon nhatky\` — Xem lịch sử ngân khố\n` +
-      `🔹 \`-tongmon roi\` — Rời tông môn\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon tao <tên> [khẩu hiệu]\` — Khai sơn lập phái\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon thongtin [tên]\` — Xem hồ sơ tông môn\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon gia_nhap <tên>\` — Gửi đơn xin nhập môn\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon thanhvien\` — Xem môn nhân\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon duyet [user_id]\` — Duyệt đơn gia nhập\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon tuchoi [user_id]\` — Từ chối đơn\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon chucvu [user_id] <pho|truonglao|de_tu>\` — Đổi chức vụ\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon truyenvi [user_id]\` — Truyền vị Tông Chủ\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon donggop <số lượng>\` — Cống hiến vào ngân khố\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon nangcap\` — Nâng cấp tông môn bằng ngân khố\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon nhatky\` — Xem lịch sử ngân khố\n` +
+      `${CE('ft_tong_mon', '🔹')} \`-tongmon roi\` — Rời tông môn\n` +
       `${CE('tuatk', '⚔️')} \`-tongmon tuyenchien <tên>\` — Tuyên chiến\n` +
       `${CE('tuatk', '⚔️')} \`-tongmon tapkich\` — Tấn công hộ sơn trận pháp\n` +
       `${CE('ft_bxh', '🏆')} \`-tongmon bxh\` — Bảng xếp hạng thế lực\n${SEP}`,
@@ -210,7 +210,7 @@ async function createSect(msg, player, args) {
 
     return msg.reply({
       embeds: [
-        okE(`🚩 **Khai Tông Lập Phái thành công!**\n\n${sectSummary(sect)}\n\n` +
+        okE(`${CE('ft_tong_mon', '🚩')} **Khai Tông Lập Phái thành công!**\n\n${sectSummary(sect)}\n\n` +
           `Dùng \`-tongmon help\` để xem quyền hạn và các bước tiếp theo.`),
       ],
     });
@@ -250,7 +250,7 @@ async function requestJoin(msg, player, args) {
       [sect.id, msg.author.id, msg.author.username, args.slice(1).join(' ').slice(0, 240)],
     );
     return msg.reply({
-      embeds: [okE(`📨 Đã gửi đơn xin gia nhập **${sect.name}**.\n` +
+      embeds: [okE(`${CE('ft_social', '📨')} Đã gửi đơn xin gia nhập **${sect.name}**.\n` +
         'Tông Chủ hoặc Trưởng Lão sẽ xem xét đơn của đạo hữu.')],
     });
   } catch (error) {
@@ -280,7 +280,7 @@ async function showMembers(msg, membership) {
   return msg.reply({
     embeds: [
       new EmbedBuilder()
-        .setTitle(`👥 MÔN NHÂN — ${membership.name}`)
+        .setTitle(`${CE('ft_social', '👥')} MÔN NHÂN — ${membership.name}`)
         .setColor(0x3498db)
         .setDescription(lines.join('\n') || 'Tông Môn chưa có môn nhân.'),
     ],
@@ -307,7 +307,7 @@ async function showRequests(msg, membership) {
   return msg.reply({
     embeds: [
       new EmbedBuilder()
-        .setTitle(`📨 ĐƠN GIA NHẬP — ${membership.name}`)
+        .setTitle(`${CE('ft_social', '📨')} ĐƠN GIA NHẬP — ${membership.name}`)
         .setColor(0xf1c40f)
         .setDescription(`${lines.join('\n\n')}\n\nDuyệt: \`-tongmon duyet <user_id>\``),
     ],
@@ -450,7 +450,7 @@ async function contribute(msg, membership, args) {
       return sectResult.rows[0].spirit_treasury;
     });
     return msg.reply({
-      embeds: [okE(`💠 Đã cống hiến **${fmt(amount)}** vào ngân khố **${membership.name}**.\n` +
+      embeds: [okE(`${CE('tult', '💠')} Đã cống hiến **${fmt(amount)}** vào ngân khố **${membership.name}**.\n` +
         `Số dư mới: **${fmt(result)}** ${CE('tult', '💠')}`)],
     });
   } catch (error) {
@@ -494,8 +494,8 @@ async function upgrade(msg, membership) {
       return upgraded.rows[0];
     });
     return msg.reply({
-      embeds: [okE(`🏯 **${membership.name}** đã lên **Cấp ${result.level}**!\n` +
-        `👥 Sức chứa: **${result.max_members}** · Chi phí: **${fmt(cost)}** ${CE('tult', '💠')}`)],
+      embeds: [okE(`${CE('ft_tong_mon', '🏯')} **${membership.name}** đã lên **Cấp ${result.level}**!\n` +
+        `${CE('ft_social', '👥')} Sức chứa: **${result.max_members}** · Chi phí: **${fmt(cost)}** ${CE('tult', '💠')}`)],
     });
   } catch (error) {
     if (error.message === 'NOT_ENOUGH') {
@@ -535,7 +535,9 @@ async function changeRole(msg, membership, args) {
     `UPDATE players SET tong_mon_cap=$1 WHERE user_id=$2`,
     [role === 'deputy' ? 'pho_tong_chu' : role === 'leader' ? 'tong_chu' : 'ngoai_mon', userId],
   );
-  return msg.reply({ embeds: [okE(`⚜️ Đã bổ nhiệm **${result.rows[0].username}** làm **${roleLabel(role)}**.`)] });
+  return msg.reply({
+    embeds: [okE(`${roleEmoji(role)} Đã bổ nhiệm **${result.rows[0].username}** làm **${roleLabel(role)}**.`)],
+  });
 }
 
 async function transferLeadership(msg, membership, args) {
@@ -577,7 +579,7 @@ async function transferLeadership(msg, membership, args) {
     );
     return target.rows[0].username;
   });
-  return msg.reply({ embeds: [okE(`👑 Đã truyền vị Tông Chủ cho **${result}**.`)] });
+  return msg.reply({ embeds: [okE(`${CE('tmcb_tong_chu', '👑')} Đã truyền vị Tông Chủ cho **${result}**.`)] });
 }
 
 async function leaveSect(msg, membership) {
@@ -646,7 +648,7 @@ async function declareWar(msg, membership, args) {
      VALUES ($1, $2, 'active')`,
     [membership.sect_id, enemy.id],
   );
-  return msg.reply({ embeds: [okE(`⚔️ **${membership.name}** đã phát hịch tuyên chiến với **${enemy.name}**!\n` +
+  return msg.reply({ embeds: [okE(`${CE('tuatk', '⚔️')} **${membership.name}** đã phát hịch tuyên chiến với **${enemy.name}**!\n` +
     'Môn nhân có thể dùng `-tongmon tapkich` để công phá hộ sơn trận pháp.')] });
 }
 
@@ -697,10 +699,10 @@ async function attack(msg, membership) {
     });
 
     if (!outcome.won) {
-      return msg.reply({ embeds: [okE(`⚔️ Đạo hữu gây **${fmt(damage)}** sát thương lên trận pháp **${outcome.defender}**.\n` +
-        `🛡️ Độ bền còn **${fmt(outcome.remaining)}**.`)] });
+      return msg.reply({ embeds: [okE(`${CE('tuatk', '⚔️')} Đạo hữu gây **${fmt(damage)}** sát thương lên trận pháp **${outcome.defender}**.\n` +
+        `${CE('tudef', '🛡️')} Độ bền còn **${fmt(outcome.remaining)}**.`)] });
     }
-    return msg.reply({ embeds: [okE(`💥 Hộ Sơn Trận Pháp của **${outcome.defender}** đã sụp đổ!\n` +
+    return msg.reply({ embeds: [okE(`${CE('ft_dot_pha', '💥')} Hộ Sơn Trận Pháp của **${outcome.defender}** đã sụp đổ!\n` +
       `**${membership.name}** chiến thắng và đoạt **${fmt(outcome.plunder)}** ${CE('tult', '💠')}.`)] });
   } catch (error) {
     console.error('[sect] attack error:', error);
