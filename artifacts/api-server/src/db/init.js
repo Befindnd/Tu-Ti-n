@@ -247,10 +247,114 @@ async function initDB() {
       wars_lost                INT DEFAULT 0,
       slogan                   TEXT DEFAULT 'Nhất đạo thông thiên, vạn cổ trường tồn!',
       max_members              INT DEFAULT 20,
+      level_xp                 BIGINT DEFAULT 0,
+      total_contribution       BIGINT DEFAULT 0,
+      join_policy              TEXT DEFAULT 'approval',
       created_at               TIMESTAMP DEFAULT NOW(),
       updated_at               TIMESTAMP DEFAULT NOW()
     )
   `).catch((e) => console.warn('⚠️ Init sects table error:', e.message));
+
+  await db("ALTER TABLE sects ADD COLUMN IF NOT EXISTS level_xp BIGINT DEFAULT 0").catch(() => {});
+  await db("ALTER TABLE sects ADD COLUMN IF NOT EXISTS total_contribution BIGINT DEFAULT 0").catch(() => {});
+  await db("ALTER TABLE sects ADD COLUMN IF NOT EXISTS join_policy TEXT DEFAULT 'approval'").catch(() => {});
+
+  // ── Tông Môn v3: membership, applications, and treasury audit trail ───
+  await db(`
+    CREATE TABLE IF NOT EXISTS sect_members (
+      id             SERIAL PRIMARY KEY,
+      sect_id        INT NOT NULL REFERENCES sects(id) ON DELETE CASCADE,
+      user_id        TEXT NOT NULL,
+      username       TEXT NOT NULL,
+      role           TEXT NOT NULL DEFAULT 'member'
+                     CHECK (role IN ('member', 'elder', 'deputy', 'leader')),
+      contribution   BIGINT NOT NULL DEFAULT 0,
+      status         TEXT NOT NULL DEFAULT 'active'
+                     CHECK (status IN ('active', 'left', 'removed')),
+      joined_at      TIMESTAMP NOT NULL DEFAULT NOW(),
+      updated_at     TIMESTAMP NOT NULL DEFAULT NOW(),
+      UNIQUE (sect_id, user_id)
+    )
+  `).catch((e) => console.warn('⚠️ Init sect_members table error:', e.message));
+
+  await db(`
+    CREATE UNIQUE INDEX IF NOT EXISTS sect_members_one_active_user
+    ON sect_members(user_id) WHERE status = 'active'
+  `).catch((e) => console.warn('⚠️ Init sect_members active index error:', e.message));
+
+  await db(`
+    CREATE INDEX IF NOT EXISTS sect_members_sect_status_idx
+    ON sect_members(sect_id, status)
+  `).catch(() => {});
+
+  await db(`
+    CREATE TABLE IF NOT EXISTS sect_join_requests (
+      id          SERIAL PRIMARY KEY,
+      sect_id     INT NOT NULL REFERENCES sects(id) ON DELETE CASCADE,
+      user_id     TEXT NOT NULL,
+      username    TEXT NOT NULL,
+      message     TEXT DEFAULT NULL,
+      status      TEXT NOT NULL DEFAULT 'pending'
+                  CHECK (status IN ('pending', 'approved', 'rejected', 'cancelled')),
+      reviewed_by TEXT DEFAULT NULL,
+      created_at  TIMESTAMP NOT NULL DEFAULT NOW(),
+      reviewed_at TIMESTAMP DEFAULT NULL
+    )
+  `).catch((e) => console.warn('⚠️ Init sect_join_requests table error:', e.message));
+
+  await db(`
+    CREATE UNIQUE INDEX IF NOT EXISTS sect_join_requests_one_pending
+    ON sect_join_requests(sect_id, user_id) WHERE status = 'pending'
+  `).catch((e) => console.warn('⚠️ Init sect_join_requests index error:', e.message));
+
+  await db(`
+    CREATE TABLE IF NOT EXISTS sect_treasury_logs (
+      id            BIGSERIAL PRIMARY KEY,
+      sect_id       INT NOT NULL REFERENCES sects(id) ON DELETE CASCADE,
+      user_id       TEXT DEFAULT NULL,
+      type          TEXT NOT NULL,
+      amount        BIGINT NOT NULL,
+      balance_after BIGINT NOT NULL DEFAULT 0,
+      reason        TEXT NOT NULL,
+      created_at    TIMESTAMP NOT NULL DEFAULT NOW()
+    )
+  `).catch((e) => console.warn('⚠️ Init sect_treasury_logs table error:', e.message));
+
+  await db(`
+    CREATE INDEX IF NOT EXISTS sect_treasury_logs_sect_created_idx
+    ON sect_treasury_logs(sect_id, created_at DESC)
+  `).catch(() => {});
+
+  // Backfill the new membership source from the legacy player columns once.
+  // ON CONFLICT keeps this safe on every restart and preserves real roles.
+  await db(`
+    INSERT INTO sect_members (sect_id, user_id, username, role)
+    SELECT s.id, p.user_id, p.username,
+      CASE p.tong_mon_cap
+        WHEN 'tong_chu' THEN 'leader'
+        WHEN 'pho_tong_chu' THEN 'deputy'
+        ELSE 'member'
+      END
+    FROM players p
+    JOIN sects s ON LOWER(s.name) = LOWER(p.tong_mon)
+    WHERE p.tong_mon IS NOT NULL
+    ON CONFLICT (sect_id, user_id) DO UPDATE SET
+      username = EXCLUDED.username,
+      role = CASE
+        WHEN sect_members.role = 'leader' THEN sect_members.role
+        ELSE EXCLUDED.role
+      END,
+      status = 'active',
+      updated_at = NOW()
+  `).catch((e) => console.warn('⚠️ Backfill sect members error:', e.message));
+
+  await db(`
+    UPDATE sects s
+    SET leader_id = m.user_id,
+        leader_name = m.username
+    FROM sect_members m
+    WHERE m.sect_id = s.id AND m.role = 'leader' AND m.status = 'active'
+  `).catch(() => {});
 
   await db(`
     CREATE TABLE IF NOT EXISTS sect_wars (
