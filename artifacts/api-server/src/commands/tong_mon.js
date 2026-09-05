@@ -35,27 +35,27 @@ function memberLimit(level) {
 
 function roleEmoji(role) {
   return {
-    leader: '👑',
-    deputy: '🛡️',
-    elder: '⚜️',
-    member: '🪶',
-  }[role] || '🪶';
+    leader: CE('tmcb_tong_chu', '👑'),
+    deputy: CE('tmcb_thanh_tu', '🛡️'),
+    elder: CE('tmcb_chan_truyen', '⚜️'),
+    member: CE('tmcb_ngoai_mon', '🪶'),
+  }[role] || CE('tmcb_ngoai_mon', '🪶');
 }
 
 function sectSummary(s) {
   return [
-    `🏯 **${s.name}** · Cấp **${s.level}**`,
-    `👑 Tông Chủ: **${s.leader_name}**`,
+    `${CE('ft_tong_mon', '🏯')} **${s.name}** · Cấp **${s.level}**`,
+    `${CE('tmcb_tong_chu', '👑')} Tông Chủ: **${s.leader_name}**`,
     `📜 ${s.slogan || 'Chưa lập khẩu hiệu.'}`,
     `${CE('tult', '💠')} Ngân khố: **${fmt(s.spirit_treasury)}**`,
-    `📈 Cống hiến: **${fmt(s.total_contribution || 0)}** · Thành viên tối đa: **${s.max_members}**`,
-    `⚔️ PK: **${fmt(s.pk_points)}** · Thắng **${s.wars_won}** / Thua **${s.wars_lost}**`,
+    `${CE('tutv', '📈')} Cống hiến: **${fmt(s.total_contribution || 0)}** · Thành viên tối đa: **${s.max_members}**`,
+    `${CE('tuatk', '⚔️')} PK: **${fmt(s.pk_points)}** · Thắng **${s.wars_won}** / Thua **${s.wars_lost}**`,
   ].join('\n');
 }
 
 async function showHelp(msg) {
   const embed = new EmbedBuilder()
-    .setTitle('🏯 HỆ THỐNG TÔNG MÔN — PHIÊN BẢN MỚI')
+    .setTitle(`${CE('ft_tong_mon', '🏯')} HỆ THỐNG TÔNG MÔN — PHIÊN BẢN MỚI`)
     .setColor(0x9b59b6)
     .setDescription(
       `*Một tông môn thật sự có người, chức vụ, ngân khố và lịch sử riêng.*\n\n${SEP}\n` +
@@ -71,9 +71,9 @@ async function showHelp(msg) {
       `🔹 \`-tongmon nangcap\` — Nâng cấp tông môn bằng ngân khố\n` +
       `🔹 \`-tongmon nhatky\` — Xem lịch sử ngân khố\n` +
       `🔹 \`-tongmon roi\` — Rời tông môn\n` +
-      `⚔️ \`-tongmon tuyenchien <tên>\` — Tuyên chiến\n` +
-      `⚔️ \`-tongmon tapkich\` — Tấn công hộ sơn trận pháp\n` +
-      `🏆 \`-tongmon bxh\` — Bảng xếp hạng thế lực\n${SEP}`,
+      `${CE('tuatk', '⚔️')} \`-tongmon tuyenchien <tên>\` — Tuyên chiến\n` +
+      `${CE('tuatk', '⚔️')} \`-tongmon tapkich\` — Tấn công hộ sơn trận pháp\n` +
+      `${CE('ft_bxh', '🏆')} \`-tongmon bxh\` — Bảng xếp hạng thế lực\n${SEP}`,
     )
     .setFooter({ text: 'Tu Tiên Bot · Tông Môn v3' });
   return msg.reply({ embeds: [embed] });
@@ -95,13 +95,13 @@ async function showInfo(msg, name, membership) {
   );
 
   const embed = new EmbedBuilder()
-    .setTitle(`🏯 ${sect.name}`)
+    .setTitle(`${CE('ft_tong_mon', '🏯')} ${sect.name}`)
     .setColor(0x9b59b6)
     .setDescription(
       `${sectSummary(sect)}\n` +
-      `👥 Thành viên: **${count.rows[0].count}/${sect.max_members}**\n` +
-      `📨 Đơn đang chờ: **${pending.rows[0].count}**\n` +
-      `🛡️ Hộ Sơn Trận Pháp: **Cấp ${sect.formation_level}** — ` +
+       `${CE('ft_social', '👥')} Thành viên: **${count.rows[0].count}/${sect.max_members}**\n` +
+       `${CE('ft_social', '📨')} Đơn đang chờ: **${pending.rows[0].count}**\n` +
+       `${CE('tudef', '🛡️')} Hộ Sơn Trận Pháp: **Cấp ${sect.formation_level}** — ` +
       `${fmt(sect.formation_durability)}/${fmt(sect.max_formation_durability)} HP`,
     )
     .setFooter({ text: 'Muốn xem môn nhân: -tongmon thanhvien' });
@@ -122,15 +122,16 @@ async function showRanking(msg) {
   }
 
   const lines = result.rows.map((s, index) => {
-    const medal = ['🥇', '🥈', '🥉'][index] || `**#${index + 1}**`;
+    const medal = [CE('rarity_than_thanh', '🥇'), CE('rarity_hiem', '🥈'), CE('rarity_su_thi', '🥉')][index]
+      || `**#${index + 1}**`;
     return `${medal} **${s.name}** · Cấp ${s.level} · ${s.member_count}/${s.max_members} người\n` +
-      `   ${CE('tult', '💠')} ${fmt(s.spirit_treasury)} · XP ${fmt(s.level_xp)} · ⚔️ ${fmt(s.pk_points)}`;
+      `   ${CE('tult', '💠')} ${fmt(s.spirit_treasury)} · XP ${fmt(s.level_xp)} · ${CE('tuatk', '⚔️')} ${fmt(s.pk_points)}`;
   });
 
   return msg.reply({
     embeds: [
       new EmbedBuilder()
-        .setTitle('🏆 BẢNG XẾP HẠNG TÔNG MÔN')
+        .setTitle(`${CE('ft_bxh', '🏆')} BẢNG XẾP HẠNG TÔNG MÔN`)
         .setColor(0xf1c40f)
         .setDescription(`${SEP2}\n${lines.join('\n\n')}\n${SEP}`),
     ],
