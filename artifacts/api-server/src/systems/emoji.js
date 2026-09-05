@@ -365,6 +365,10 @@ const _lerp = (n, t, e) => Math.round(n + (t - n) * Math.min(1, Math.max(0, e)))
     { name: "tucn",      file: "tucn_nobg.png" },
     { name: "tunt",      file: "tunt_nobg.png" },
     { name: "lock_icon", file: "lock_nobg.png" },
+    // LINH THẠCH — ảnh thật cho ba loại tiền tệ trong game
+    { name: "tult",       file: "linh_thach_nobg.png" },
+    { name: "tult_trung", file: "linh_thach_trung_nobg.png" },
+    { name: "tult_cao",   file: "linh_thach_cao_nobg.png" },
   ],
   LINH_CAN_IMG_DEFS = [
     { name: "lc_kim", file: "kim_nobg.png" },
