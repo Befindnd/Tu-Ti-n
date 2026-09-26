@@ -49,7 +49,7 @@ const {
   rollVuotKiepResult,
 } = require('../game/cultivation_engine');
 
-const TU_LUYEN_CD_H = 1;
+const TU_LUYEN_CD_H = 0.5;
 // Tu Luyện events: see game/cultivation_engine.js → SU_KIEN_TU
 function checkNgheDotPha(n) {
   if (!n.nghe)
