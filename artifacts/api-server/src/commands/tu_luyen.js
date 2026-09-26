@@ -184,7 +184,7 @@ reg("tu_luyen", ["tl", "tu", "tuluyen"], async (msg, args) => {
           },
           {
             name: `${CE("cd_timer","⏳")} CD Hồi Phục`,
-            value: `**${TU_LUYEN_CD_H}h** · Skip ${fmt(a)} ${CE("tult", "💠")}`,
+            value: `**30ph** · Skip ${fmt(a)} ${CE("tult", "💠")}`,
             inline: !0,
           },
           {
