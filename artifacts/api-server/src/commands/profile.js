@@ -40,7 +40,7 @@ const {
 } = require('../game/combat');
 const { critRate, critMult } = require('../game/combat_engine');
 const ADMIN_ID = process.env.ADMIN_ID || '';
-const TU_LUYEN_CD_H = 1;
+const TU_LUYEN_CD_H = 0.5;
 
 (setInterval(() => {
   const n = Date.now() - 6e4;
@@ -80,7 +80,7 @@ const TU_LUYEN_CD_H = 1;
           .setColor(GIA_TOC_MAU[gt.do_quy] || 53247)
           .setThumbnail(n.author.displayAvatarURL())
           .setDescription(
-            `*Thiên địa rung chuyển, linh khí bốn phương quy tụ...*\n*Thiên mệnh khai mở — **${e}** chính thức bước vào con đường tu tiên!*\n\n${SEP2}\n\n${a.emoji} **Linh Căn: ${a.ten}**\n*${LINH_CAN_MO_TA[h]}*\n\n${CE(o.ce_name, o.emoji)} **Huyết Mạch: ${o.ten}** — ×${o.multiplier}\n\n${u.emoji} **Ngộ Tính: ${u.ten}** (${c}/100)\n*${u.mo_ta}*\n\n${CE("tukv", "🍀")} **Khí Vận: ${_}/100**\n\n${SEP2}\n\n${gtDoQuyEmoji} **Gia Tộc: ${gt.emoji} ${gt.ten}** *(${gt.do_quy_ten})*\n*${gt.mo_ta}*\n✨ **Bonus:** ${gt.bonus}\n\n${SEP2}\n\n**✦ Bước Đầu Tiên:**\n\`-nghe xem\` · Chọn Đạo Pháp\n\`-tu_luyen\` · Tích lũy Tu Vi *(CD 1h)*\n\`-linh_ngo\` · Đọc cổ thư lĩnh ngộ công pháp\n\`-gia_toc\` · Xem thông tin gia tộc của ngươi\n\`-huong_dan\` · Xem toàn bộ hướng dẫn`,
+            `*Thiên địa rung chuyển, linh khí bốn phương quy tụ...*\n*Thiên mệnh khai mở — **${e}** chính thức bước vào con đường tu tiên!*\n\n${SEP2}\n\n${a.emoji} **Linh Căn: ${a.ten}**\n*${LINH_CAN_MO_TA[h]}*\n\n${CE(o.ce_name, o.emoji)} **Huyết Mạch: ${o.ten}** — ×${o.multiplier}\n\n${u.emoji} **Ngộ Tính: ${u.ten}** (${c}/100)\n*${u.mo_ta}*\n\n${CE("tukv", "🍀")} **Khí Vận: ${_}/100**\n\n${SEP2}\n\n${gtDoQuyEmoji} **Gia Tộc: ${gt.emoji} ${gt.ten}** *(${gt.do_quy_ten})*\n*${gt.mo_ta}*\n✨ **Bonus:** ${gt.bonus}\n\n${SEP2}\n\n**✦ Bước Đầu Tiên:**\n\`-nghe xem\` · Chọn Đạo Pháp\n\`-tu_luyen\` · Tích lũy Tu Vi *(CD 30ph)*\n\`-linh_ngo\` · Đọc cổ thư lĩnh ngộ công pháp\n\`-gia_toc\` · Xem thông tin gia tộc của ngươi\n\`-huong_dan\` · Xem toàn bộ hướng dẫn`,
           )
           .setFooter({ text: `Hành trình vạn dặm khởi từ một bước ✦ Tu Tiên Thế Giới · Gia tộc: ${gt.ten}` }),
       ],
