@@ -49,7 +49,7 @@ const HD_GROUPS = {
     lenh: [
       '**`-bd`** — Tạo nhân vật *(1 lần duy nhất)*',
       '**`-tt`** — Xem hồ sơ & chỉ số nhân vật',
-      '**`-tl`** — Tu luyện tích Tu Vi *(CD 1h)*',
+      '**`-tl`** — Tu luyện tích Tu Vi *(CD 30ph)*',
       '**`-tl sk`** — Bỏ qua CD bằng Linh Thạch',
       '**`-dp`** — Đột phá khi Cảm Ngộ ≥ 60%',
       '**`-vk`** — Vượt Thiên Kiếp',
@@ -207,7 +207,7 @@ reg('huong_dan', ['hd', 'lenh', 'help', 'huongdan'], async (n) => {
         value: [
           '**1.** `-bd` — Tạo nhân vật',
           '**2.** `-nghe xem` — Chọn Đạo Pháp *(quan trọng!)*',
-          '**3.** `-tl` — Tu luyện mỗi **1h**',
+          '**3.** `-tl` — Tu luyện mỗi **30ph**',
           '**4.** `-dp` — Đột phá khi Cảm Ngộ ≥ 60%',
           '**5.** `-san` — Săn Linh Thú kiếm nguyên liệu',
         ].join('\n'),
@@ -215,7 +215,7 @@ reg('huong_dan', ['hd', 'lenh', 'help', 'huongdan'], async (n) => {
       },
       {
         name: '⏰ Lịch hàng ngày',
-        value: `🗓️ \`-daily\` · 🌌 \`-duyen\` *(8h)* · 🗝️ \`-bic vao\` *(4h)* · ${CE("ft_tu_luyen","🧘")} \`-tl\` *(1h)* · 📋 \`-nv\``,
+        value: `🗓️ \`-daily\` · 🌌 \`-duyen\` *(8h)* · 🗝️ \`-bic vao\` *(4h)* · ${CE("ft_tu_luyen","🧘")} \`-tl\` *(30ph)* · 📋 \`-nv\``,
         inline: false,
       },
     )
