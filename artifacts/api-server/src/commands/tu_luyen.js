@@ -50,7 +50,7 @@ const {
   rollVuotKiepResult,
 } = require('../game/cultivation_engine');
 
-const TU_LUYEN_CD_H = 1;
+const TU_LUYEN_CD_H = 0.5;
 const { checkNgheDotPha } = require('./cultivation');
 
 
